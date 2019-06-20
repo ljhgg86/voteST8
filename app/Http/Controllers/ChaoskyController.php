@@ -62,7 +62,8 @@ class ChaoskyController extends Controller
     public function show($id)
     {
          $chaosky = $this->chaosky->getChaosky($id);
-        if(!empty(json_decode($chaosky,true))){
+        // if(!empty(json_decode($chaosky,true))){
+        if($chaosky){
             return response()->json([
                 'status'=>true,
                 'message'=>'success',

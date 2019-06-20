@@ -23,11 +23,17 @@ class Chaosky extends Model
         return $this->hasMany('App\Models\Votetitle','tipid','tipid');
     }
 
+    /**
+     * get chaosky
+     *
+     * @param int $id
+     * @return Chaosky
+     */
     public function getChaosky($id){
         return $this->where('tipid',$id)
                     ->where('delflag',0)
                     ->where('draftflag',0)
-                    ->with(['chaocomment','voteitem','voterecord','votetitle'])
-                    ->get();
+                    ->with(['voteitem','voterecord','votetitle'])
+                    ->first();
     }
 }

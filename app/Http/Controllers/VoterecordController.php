@@ -44,7 +44,8 @@ class VoterecordController extends Controller
      */
     public function store(Request $request)
     {
-        $res = $this->voterecord->create($request->all());
+        //$res = $this->voterecord->create($request->all());
+        $res = $this->voterecord->saveVoterecord($request->input('voterecords');)
         if($res){
             return response()->json([
                 'status'=>true,

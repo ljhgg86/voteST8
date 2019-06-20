@@ -23,4 +23,14 @@ class Voterecord extends Model
     public function chaosky(){
         return $this->belongsTo('App\Models\Chaosky','tipid','tipid');
     }
+    /**
+     * Save voterecord
+     *
+     * @param Array $voterecords
+     * @return Boolean
+     */
+    public function saveVoterecord($voterecords){
+        $this->fill($voterecords);
+        $this->save();
+    }
 }

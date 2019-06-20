@@ -23,4 +23,15 @@ class Voteitem extends Model
     public function votetitle(){
         return $this->belongsTo('App\Models\Votetitle','vtid','vtid');
     }
+    /**
+     * get voteitem with votetitle
+     *
+     * @param  int $id
+     * @return Voteitem
+     */
+    public function getVoteitem($id){
+        return $this->where('id',$id)
+                        ->with(['votetitle'])
+                        ->first();
+    }
 }

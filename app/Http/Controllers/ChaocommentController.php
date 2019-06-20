@@ -101,4 +101,23 @@ class ChaocommentController extends Controller
     {
         //
     }
+
+    /**
+     * return comments of counts from startid
+     */
+    public function getComments($tipid,$startid,$counts){
+        $comments = $this->chaocomment->getComments($tipid,$startid,$counts);
+        if(!empty(json_decode($comments,true))){
+            return response()->json([
+                'status'=>true,
+                'message'=>'success',
+                'comments'=>$comments
+            ]);
+        }
+        return response()->json([
+            'status'=>false,
+            'message'=>'fail',
+            'comments'=>''
+        ]);
+    }
 }
