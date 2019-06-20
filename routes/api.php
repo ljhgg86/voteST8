@@ -1,0 +1,23 @@
+<?php
+
+use Illuminate\Http\Request;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+Route::get('/chaosky/show/{id}','ChaoskyController@show')->middleware('cors');
+Route::post('/chaosky/updateReadnum','ChaoskyController@updateReadnum')->middleware('cors');
+Route::post('/voterecord/store','VoterecordController@store')->middleware('cors');
+Route::post('/votetitle/updateVotenum','VotetitleController@updateVotenum')->middleware('cors');
+Route::post('/chaocomment/store','ChaocommentController@store')->middleware('cors');
