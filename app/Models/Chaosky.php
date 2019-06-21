@@ -33,7 +33,7 @@ class Chaosky extends Model
         return $this->where('tipid',$id)
                     ->where('delflag',0)
                     ->where('draftflag',0)
-                    ->with(['voteitem','voterecord','votetitle'])
+                    ->with(['votetitle.voteitem'])
                     ->first();
     }
 }

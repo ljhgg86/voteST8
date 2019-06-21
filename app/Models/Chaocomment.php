@@ -18,6 +18,8 @@ class Chaocomment extends Model
         'verifyflag',
         'userphone',
         'uid',
+        'nickname',
+        'avatar'
     ];
     public function chaosky(){
         return $this->belongsTo('App\Models\Chaosky','tipid','tipid');
