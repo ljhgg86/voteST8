@@ -30,6 +30,7 @@ class Chaosky extends Model
      * @return Chaosky
      */
     public function getChaosky($id){
+        $this->where('tipid',$id)->increment('readnum');
         return $this->where('tipid',$id)
                     ->where('delflag',0)
                     ->where('draftflag',0)
