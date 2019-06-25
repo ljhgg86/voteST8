@@ -52,6 +52,7 @@ class Voterecord extends Model
         DB::beginTransaction();
         try{
             DB::table('voterecord')->insert($voterecordsArr);
+            DB::table('voteitem')->whereIn('id',$voterecords['voterecord'])->increment('votecount');
             DB::commit();
         }catch(Exception $e){
             DB::rollback();

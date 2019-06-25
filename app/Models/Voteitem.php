@@ -34,4 +34,9 @@ class Voteitem extends Model
                         ->with(['votetitle'])
                         ->first();
     }
+
+    public function incrementVotecount($id){
+        return $this->where('id',$id)
+                    ->increment('votecount');
+    }
 }
