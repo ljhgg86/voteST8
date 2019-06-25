@@ -60,12 +60,12 @@ class VoterecordController extends Controller
         if($res){
             return response()->json([
                 'status'=>true,
-                'message'=>'Vote success!'
+                'message'=>'投票成功!'
             ]);
         }
         return response()->json([
             'status'=>false,
-            'message'=>'Vote fail!'
+            'message'=>'投票失败!'
         ]);
     }
 
