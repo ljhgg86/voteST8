@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Voteitem;
 use DB;
 
 class Voterecord extends Model
@@ -37,14 +38,16 @@ class Voterecord extends Model
         $clientIp = $this->getClientIp();
         $voterecordsArr = array();
         foreach($voterecords['voterecord'] as $voterecordItemid){
-            $voterecordItem = DB::table('voteitem')->where('id',$voterecordItemid)->first();
-            $voterecordInfo = "--".$voterecordItemid."--".$voterecordItem->itemcontent;
+            //$voterecordItem = DB::table('voteitem')->where('id',$voterecordItemid)->first();
+            $voterecordItem = Voteitem::find($voterecordItemid);
+            $voterecordInfo = "--".$voterecordItem->vtid."--".$voterecordItemid."--".$voterecordItem->itemcontent;
             $voterecordsArr[] = array('tipid'=>$voterecords['tipid'],
                                     'localrecord'=>$voterecords['localrecord'],
                                     'userip'=>$clientIp,
                                     'userphone'=>$voterecords['userphone'],
                                     'votetime'=>$votetime,
                                     'voterecord'=>$voterecordInfo,
+                                    'uscore'=>$voterecords['uscore'],
                                     'browsertype'=>$voterecords['browsertype'],
                                     'wenick'=>$voterecords['wenick']
                                 );
