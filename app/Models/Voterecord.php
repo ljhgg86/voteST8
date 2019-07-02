@@ -37,11 +37,11 @@ class Voterecord extends Model
         $votetime = date("Y-m-d H:i:s");
         $clientIp = $this->getClientIp();
         $voterecordsArr = array();
-        //foreach($voterecords['voterecord'] as $voterecordItemid){
-            //$voterecordItem = Voteitem::find($voterecordItemid);
+        foreach($voterecords['voterecord'] as $voterecordItemid){
+            // $voterecordItem = Voteitem::find($voterecordItemid);
             //$voterecordInfo = "--".$voterecordItem->vtid."--".$voterecordItemid."--".$voterecordItem->itemcontent;
-            $voterecordItemid = $voterecords['voterecord'];
-            $voterecordInfo = strval($voterecords['voterecord']);
+            // $voterecordItemid = $voterecords['voterecord'];
+            $voterecordInfo = $voterecordItemid;
             $voterecordsArr[] = array('tipid'=>$voterecords['tipid'],
                                     'localrecord'=>$voterecords['localrecord'],
                                     'userip'=>$clientIp,
@@ -52,12 +52,12 @@ class Voterecord extends Model
                                     'browsertype'=>$voterecords['browsertype'],
                                     'wenick'=>$voterecords['wenick']
                                 );
-        //}
+        }
         DB::beginTransaction();
         try{
             DB::table('voterecord')->insert($voterecordsArr);
-            //DB::table('voteitem')->whereIn('id',$voterecords['voterecord'])->increment('votecount');
-            DB::table('voteitem')->where('id',$voterecordItemid)->increment('votecount');
+            DB::table('voteitem')->whereIn('id',$voterecords['voterecord'])->increment('votecount');
+            //DB::table('voteitem')->where('id',$voterecordItemid)->increment('votecount');
             DB::commit();
         }catch(Exception $e){
             DB::rollback();
@@ -77,12 +77,28 @@ class Voterecord extends Model
      */
     public function recordExist($tipid,$browsertype,$localrecord,$wenick,$voterecord,$voterate){
         $WECHATTYPE = config('vote.weChatType');
-        if($browsertype == $WECHATTYPE){
-            return $this->werecordExist($tipid,$wenick,$voterecord,$voterate);
+        $record = NULL;
+        foreach($voterecord as $voterecordid){
+            if($browsertype == $WECHATTYPE){
+                $record = $this->werecordExist($tipid,$wenick,$voterecordid,$voterate);
+            }
+            else{
+                $record = $this->localrecordExist($tipid,$localrecord,$voterecordid,$voterate);
+            }
+            if($record){
+                return $record;
+            }
+            else{
+                continue;
+            }
         }
-        else{
-            return $this->localrecordExist($tipid,$localrecord,$voterecord,$voterate);
-        }
+        return $record;
+        // if($browsertype == $WECHATTYPE){
+        //     return $this->werecordExist($tipid,$wenick,$voterecord,$voterate);
+        // }
+        // else{
+        //     return $this->localrecordExist($tipid,$localrecord,$voterecord,$voterate);
+        // }
     }
 
     /**
