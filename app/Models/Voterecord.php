@@ -75,13 +75,13 @@ class Voterecord extends Model
      * @param string $wenick
      * @return voterecord
      */
-    public function recordItemExist($tipid,$browsertype,$localrecord,$wenick,$voterecord){
+    public function recordExist($tipid,$browsertype,$localrecord,$wenick,$voterecord,$voterate){
         $WECHATTYPE = config('vote.weChatType');
         if($browsertype == $WECHATTYPE){
-            return $this->werecordExist($tipid,$wenick,$voterecord);
+            return $this->werecordExist($tipid,$wenick,$voterecord,$voterate);
         }
         else{
-            return $this->localrecordExist($tipid,$localrecord,$voterecord);
+            return $this->localrecordExist($tipid,$localrecord,$voterecord,$voterate);
         }
     }
 
@@ -92,13 +92,24 @@ class Voterecord extends Model
      * @param string $localrecord
      * @return voterecord
      */
-    public function localrecordExist($tipid,$localrecord,$voterecord){
+    public function localrecordExist($tipid,$localrecord,$voterecord,$voterate){
         $WECHATTYPE = config('vote.weChatType');
-        return $this->where('tipid',$tipid)
-                    ->where('browsertype','<>',$WECHATTYPE)
-                    ->where('localrecord',$localrecord)
-                    ->where('voterecord',$voterecord)
-                    ->first();
+        if($voterate == 0){
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype','<>',$WECHATTYPE)
+                        ->where('localrecord',$localrecord)
+                        ->where('voterecord',$voterecord)
+                        ->first();
+        }
+        else{
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype','<>',$WECHATTYPE)
+                        ->where('localrecord',$localrecord)
+                        ->where('voterecord',$voterecord)
+                        ->whereDate('votetime',date('Y-m-d'))
+                        ->first();
+        }
+
     }
 
     /**
@@ -108,13 +119,24 @@ class Voterecord extends Model
      * @param string $wenick
      * @return voterecord
      */
-    public function werecordExist($tipid,$wenick,$voterecord){
+    public function werecordExist($tipid,$wenick,$voterecord,$voterate){
         $WECHATTYPE = config('vote.weChatType');
-        return $this->where('tipid',$tipid)
-                    ->where('browsertype',$WECHATTYPE)
-                    ->where('wenick',$wenick)
-                    ->where('voterecord',$voterecord)
-                    ->first();
+        if($voterate == 0){
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype',$WECHATTYPE)
+                        ->where('wenick',$wenick)
+                        ->where('voterecord',$voterecord)
+                        ->first();
+        }
+        else{
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype',$WECHATTYPE)
+                        ->where('wenick',$wenick)
+                        ->where('voterecord',$voterecord)
+                        ->whereDate('votetime',date('Y-m-d'))
+                        ->first();
+        }
+
     }
 
     /**

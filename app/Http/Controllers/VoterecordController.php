@@ -76,7 +76,8 @@ class VoterecordController extends Controller
         $localrecord = $voterecords['localrecord'];
         $wenick = $voterecords['wenick'];
         $voterecord = $voterecords['voterecord'];
-        if($this->voterecord->recordItemExist($tipid,$browsertype,$localrecord,$wenick,$voterecord)){
+        $voterate = $voterecords['voterate'];
+        if($this->voterecord->recordExist($tipid,$browsertype,$localrecord,$wenick,$voterecord,$voterate)){
             return response()->json([
                 'status'=>false,
                 'message'=>'您已经投过票了!'
