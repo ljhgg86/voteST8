@@ -42,7 +42,7 @@ class VoterecordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeVote(Request $request)
     {
         //$res = $this->voterecord->create($request->all());
        $voterecords = $request->all();
@@ -51,6 +51,32 @@ class VoterecordController extends Controller
         $localrecord = $voterecords['localrecord'];
         $wenick = $voterecords['wenick'];
         if($this->voterecord->recordExist($tipid,$browsertype,$localrecord,$wenick)){
+            return response()->json([
+                'status'=>false,
+                'message'=>'您已经投过票了!'
+            ]);
+        }
+        $res = $this->voterecord->saveVoterecord($voterecords);
+        if($res){
+            return response()->json([
+                'status'=>true,
+                'message'=>'投票成功!'
+            ]);
+        }
+        return response()->json([
+            'status'=>false,
+            'message'=>'投票失败!'
+        ]);
+    }
+
+    public function store(Request $request){
+        $voterecords = $request->all();
+        $tipid = $voterecords['tipid'];
+        $browsertype = $voterecords['browsertype'];
+        $localrecord = $voterecords['localrecord'];
+        $wenick = $voterecords['wenick'];
+        $voterecord = $voterecords['voterecord'];
+        if($this->voterecord->recordItemExist($tipid,$browsertype,$localrecord,$wenick,$voterecord)){
             return response()->json([
                 'status'=>false,
                 'message'=>'您已经投过票了!'

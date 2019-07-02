@@ -37,10 +37,11 @@ class Voterecord extends Model
         $votetime = date("Y-m-d H:i:s");
         $clientIp = $this->getClientIp();
         $voterecordsArr = array();
-        foreach($voterecords['voterecord'] as $voterecordItemid){
-            //$voterecordItem = DB::table('voteitem')->where('id',$voterecordItemid)->first();
-            $voterecordItem = Voteitem::find($voterecordItemid);
-            $voterecordInfo = "--".$voterecordItem->vtid."--".$voterecordItemid."--".$voterecordItem->itemcontent;
+        //foreach($voterecords['voterecord'] as $voterecordItemid){
+            //$voterecordItem = Voteitem::find($voterecordItemid);
+            //$voterecordInfo = "--".$voterecordItem->vtid."--".$voterecordItemid."--".$voterecordItem->itemcontent;
+            $voterecordItemid = $voterecords['voterecord'];
+            $voterecordInfo = strval($voterecords['voterecord']);
             $voterecordsArr[] = array('tipid'=>$voterecords['tipid'],
                                     'localrecord'=>$voterecords['localrecord'],
                                     'userip'=>$clientIp,
@@ -51,11 +52,12 @@ class Voterecord extends Model
                                     'browsertype'=>$voterecords['browsertype'],
                                     'wenick'=>$voterecords['wenick']
                                 );
-        }
+        //}
         DB::beginTransaction();
         try{
             DB::table('voterecord')->insert($voterecordsArr);
-            DB::table('voteitem')->whereIn('id',$voterecords['voterecord'])->increment('votecount');
+            //DB::table('voteitem')->whereIn('id',$voterecords['voterecord'])->increment('votecount');
+            DB::table('voteitem')->where('id',$voterecordItemid)->increment('votecount');
             DB::commit();
         }catch(Exception $e){
             DB::rollback();
@@ -73,13 +75,13 @@ class Voterecord extends Model
      * @param string $wenick
      * @return voterecord
      */
-    public function recordExist($tipid,$browsertype,$localrecord,$wenick){
+    public function recordItemExist($tipid,$browsertype,$localrecord,$wenick,$voterecord){
         $WECHATTYPE = config('vote.weChatType');
         if($browsertype == $WECHATTYPE){
-            return $this->werecordExist($tipid,$wenick);
+            return $this->werecordExist($tipid,$wenick,$voterecord);
         }
         else{
-            return $this->localrecordExist($tipid,$localrecord);
+            return $this->localrecordExist($tipid,$localrecord,$voterecord);
         }
     }
 
@@ -90,11 +92,12 @@ class Voterecord extends Model
      * @param string $localrecord
      * @return voterecord
      */
-    public function localrecordExist($tipid,$localrecord){
+    public function localrecordExist($tipid,$localrecord,$voterecord){
         $WECHATTYPE = config('vote.weChatType');
         return $this->where('tipid',$tipid)
                     ->where('browsertype','<>',$WECHATTYPE)
                     ->where('localrecord',$localrecord)
+                    ->where('voterecord',$voterecord)
                     ->first();
     }
 
@@ -105,11 +108,12 @@ class Voterecord extends Model
      * @param string $wenick
      * @return voterecord
      */
-    public function werecordExist($tipid,$wenick){
+    public function werecordExist($tipid,$wenick,$voterecord){
         $WECHATTYPE = config('vote.weChatType');
         return $this->where('tipid',$tipid)
                     ->where('browsertype',$WECHATTYPE)
                     ->where('wenick',$wenick)
+                    ->where('voterecord',$voterecord)
                     ->first();
     }
 
