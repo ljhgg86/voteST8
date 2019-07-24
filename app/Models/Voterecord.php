@@ -67,6 +67,45 @@ class Voterecord extends Model
     }
 
     /**
+     * 检查是否已经投票过或者投票数量已达上限
+     *
+     * @param int $tipid
+     * @param int $browsertype
+     * @param string $localrecord
+     * @param string $wenick
+     * @param array $voterecord
+     * @param int $voterate
+     * @param int $votenum
+     * @return void
+     */
+    public function recordOutOrExist($tipid,$browsertype,$localrecord,$wenick,$voterecord,$voterate,$votenum){
+        if($this->isVotenumsOut($tipid,$browsertype,$localrecord,$wenick,$voterate,$votenum)){
+            return true;
+        }
+        return $this->recordExist($tipid,$browsertype,$localrecord,$wenick,$voterecord,$voterate);
+    }
+    /**
+     * 判断当前用户已经投过票的选项数最大
+     *
+     * @param int $tipid
+     * @param int $browsertype
+     * @param string $localrecord
+     * @param string $wenick
+     * @param int $voterate
+     * @param int $votenum
+     * @return boolean
+     */
+    public function isVotenumsOut($tipid,$browsertype,$localrecord,$wenick,$voterate,$votenum){
+        $WECHATTYPE = config('vote.weChatType');
+        if($browsertype == $WECHATTYPE){
+            return $votenum<=($this->werecordCounts($tipid,$wenick,$voterate));
+        }
+        else{
+            return $votenum<=($this->localrecordCounts($tipid,$localrecord,$voterate));
+        }
+    }
+
+    /**
      * 判断当前用户（localstorage或者phone或者微信昵称）是否已经有投票过
      *
      * @param int $tipid
@@ -151,6 +190,57 @@ class Voterecord extends Model
                         ->where('voterecord',$voterecord)
                         ->whereDate('votetime',date('Y-m-d'))
                         ->first();
+        }
+
+    }
+
+    /**
+     * 指定非微信用户关于指定tipid的已经投票记录数
+     *
+     * @param int $tipid
+     * @param string $localrecord
+     * @param int $voterate
+     * @return int
+     */
+    public function localrecordCounts($tipid,$localrecord,$voterate){
+        $WECHATTYPE = config('vote.weChatType');
+        if($voterate == 0){
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype','<>',$WECHATTYPE)
+                        ->where('localrecord',$localrecord)
+                        ->count();
+        }
+        else{
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype','<>',$WECHATTYPE)
+                        ->where('localrecord',$localrecord)
+                        ->whereDate('votetime',date('Y-m-d'))
+                        ->count();
+        }
+    }
+
+    /**
+     * 指定微信用户关于指定tipid的已经投票记录数
+     *
+     * @param int $tipid
+     * @param string $wenick
+     * @param int $voterate
+     * @return int
+     */
+    public function werecordCounts($tipid,$wenick,$voterate){
+        $WECHATTYPE = config('vote.weChatType');
+        if($voterate == 0){
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype',$WECHATTYPE)
+                        ->where('wenick',$wenick)
+                        ->count();
+        }
+        else{
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype',$WECHATTYPE)
+                        ->where('wenick',$wenick)
+                        ->whereDate('votetime',date('Y-m-d'))
+                        ->count();
         }
 
     }
