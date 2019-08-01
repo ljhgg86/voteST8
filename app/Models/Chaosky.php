@@ -9,6 +9,7 @@ class Chaosky extends Model
     protected $table= 'chaosky';
     protected $fillable = [
         'readnum',
+        'realnum',
     ];
     public function chaocomment(){
         return $this->hasMany('App\Models\Chaocomment','tipid','tipid');
@@ -32,6 +33,7 @@ class Chaosky extends Model
     public function getChaosky($id){
         $readnumIncre = mt_rand(config('vote.readnumIncreMin'),config('vote.readnumIncreMax'));
         $this->where('tipid',$id)->increment('readnum',$readnumIncre);
+        $this->where('tipid',$id)->increment('realnum');
         return $this->where('tipid',$id)
                     ->where('delflag',0)
                     ->where('draftflag',0)
