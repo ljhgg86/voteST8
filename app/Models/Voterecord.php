@@ -37,7 +37,8 @@ class Voterecord extends Model
         $votetime = date("Y-m-d H:i:s");
         //the below 5 rows code for voteST8 checksum
         $clientIp = $this->getClientIp();
-        $checksum = md5($voterecords['localrecord']);
+        $str = $voterecords['localrecord'] + "abc";
+        $checksum = md5($str);
         if($clientIp != config('vote.clientIp') || $checksum != $voterecords['key']){
             return false;
         }
