@@ -35,7 +35,8 @@ class Voterecord extends Model
      */
     public function saveVoterecord($voterecords){
         $votetime = date("Y-m-d H:i:s");
-        $refuseTime = "2019-08-06 12:00:00";
+        $refuseTime = config('vote.refuseTime');
+        $unIncreVoteArr = config('vote.unIncreVoteArray');
         //the below 5 rows code for voteST8 checksum
         $clientIp = $this->getClientIp();
         $str = $voterecords['localrecord']."abc";
@@ -63,7 +64,7 @@ class Voterecord extends Model
         DB::beginTransaction();
         try{
             DB::table('voterecord')->insert($voterecordsArr);
-            if(!($voterecords['voterecord'][0] == "11178" && strtotime($votetime)<strtotime($refuseTime))){
+            if(!(in_array($voterecords['voterecord'][0],$unIncreVoteArr) && strtotime($votetime)<strtotime($refuseTime))){
                 DB::table('voteitem')->whereIn('id',$voterecords['voterecord'])->increment('votecount');
             }
             //DB::table('voteitem')->where('id',$voterecordItemid)->increment('votecount');

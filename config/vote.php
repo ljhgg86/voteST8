@@ -5,5 +5,7 @@ return [
     'weChatType' => 2,
     'readnumIncreMin' => 1,
     'readnumIncreMax' => 1,
-    'clientIp' =>'10.16.11.6'
+    'clientIp' =>'10.16.11.6',
+    'refuseTime' => '2019-08-06 12:00:00',
+    'unIncreVoteArray' => array('11178')
 ];
