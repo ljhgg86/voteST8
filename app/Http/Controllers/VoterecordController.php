@@ -97,8 +97,9 @@ class VoterecordController extends Controller
         ]);
     }
 
-    public function store222($id,Request $request){
+    public function storeList($id,Request $request){
         $voterecords = $request->all();
+        $voterecords['voterecord'] = array($id);
         $tipid = $voterecords['tipid'];
         $browsertype = $voterecords['browsertype'];
         $localrecord = $voterecords['localrecord'];
