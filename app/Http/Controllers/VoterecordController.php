@@ -97,6 +97,34 @@ class VoterecordController extends Controller
         ]);
     }
 
+    public function store222($id,Request $request){
+        $voterecords = $request->all();
+        $tipid = $voterecords['tipid'];
+        $browsertype = $voterecords['browsertype'];
+        $localrecord = $voterecords['localrecord'];
+        $wenick = $voterecords['wenick'];
+        $voterecord = $voterecords['voterecord'];
+        $voterate = $voterecords['voterate'];
+        $votenum = $voterecords['votenum'];
+        if($this->voterecord->recordOutOrExist($tipid,$browsertype,$localrecord,$wenick,$voterecord,$voterate,$votenum)){
+            return response()->json([
+                'status'=>false,
+                'message'=>'您已经投过票了!'
+            ]);
+        }
+        $res = $this->voterecord->saveVoterecord($voterecords);
+        if($res){
+            return response()->json([
+                'status'=>true,
+                'message'=>'投票成功!'
+            ]);
+        }
+        return response()->json([
+            'status'=>false,
+            'message'=>'投票失败!'
+        ]);
+    }
+
     /**
      * Display the specified resource.
      *

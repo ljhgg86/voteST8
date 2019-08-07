@@ -19,7 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/chaosky/show/{id}','ChaoskyController@show')->middleware('cors');
 //Route::post('/chaosky/updateReadnum','ChaoskyController@updateReadnum')->middleware('cors');
 //Route::post('/voterecord/store','VoterecordController@store')->middleware('cors');
-Route::post('/voterecord/store111','VoterecordController@store')->middleware('cors');
+Route::post('/voterecord/store111','VoterecordController@store')->middleware('cors','checkTipid');
+Route::post('/voterecord/store222/{id}','VoterecordController@store222')->middleware('cors');
 //Route::post('/votetitle/updateVotenum','VotetitleController@updateVotenum')->middleware('cors');
 Route::post('/chaocomment/store','ChaocommentController@store')->middleware('cors');
 Route::get('/chaocomment/getComments/{tipid}/{startid}/{counts}','ChaocommentController@getComments')->middleware('cors');
