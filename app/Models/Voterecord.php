@@ -39,7 +39,7 @@ class Voterecord extends Model
         $unIncreVoteArr = config('vote.unIncreVoteArray');
         //the below 5 rows code for voteST8 checksum
         $clientIp = $this->getClientIp();
-        $str = $voterecords['localrecord']."abc";
+        $str = $voterecords['localrecord']."aaa";
         $checksum = md5($str);
         //if($clientIp != config('vote.clientIp') || $checksum != $voterecords['key']){
         if($checksum != $voterecords['key']){
