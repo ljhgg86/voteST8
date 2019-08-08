@@ -41,7 +41,8 @@ class Voterecord extends Model
         $clientIp = $this->getClientIp();
         $str = $voterecords['localrecord']."abc";
         $checksum = md5($str);
-        if($clientIp != config('vote.clientIp') || $checksum != $voterecords['key']){
+        //if($clientIp != config('vote.clientIp') || $checksum != $voterecords['key']){
+        if($checksum != $voterecords['key']){
             return false;
         }
         $voterecordsArr = array();

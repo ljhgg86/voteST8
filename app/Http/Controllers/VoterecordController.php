@@ -70,6 +70,8 @@ class VoterecordController extends Controller
     }
 
     public function store(Request $request){
+        // $pos = strripos($request->url(),"/");
+        // $str = substr($request->url(),$pos+1);
         $voterecords = $request->all();
         $tipid = $voterecords['tipid'];
         $browsertype = $voterecords['browsertype'];
