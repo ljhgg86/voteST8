@@ -51,6 +51,7 @@ class Voterecord extends Model
             //$voterecordInfo = "--".$voterecordItem->vtid."--".$voterecordItemid."--".$voterecordItem->itemcontent;
             // $voterecordItemid = $voterecords['voterecord'];
             $voterecordInfo = $voterecordItemid;
+            $voterecordInfo = "A".$voterecordItemid;
             $voterecordsArr[] = array('tipid'=>$voterecords['tipid'],
                                     'localrecord'=>$voterecords['localrecord'],
                                     'userip'=>$clientIp,
