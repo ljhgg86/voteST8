@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'cors' => \App\Http\Middleware\Cors::class,
         'checkTipid' => \App\Http\Middleware\checkTipid::class,
         'checkIp' => \App\Http\Middleware\CheckIp::class,
+        'refuseVote' => \App\Http\Middleware\RefuseVote::class,
     ];
 
     /**

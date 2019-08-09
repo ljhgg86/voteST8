@@ -25,27 +25,31 @@ Route::post('/chaocomment/store','ChaocommentController@store')->middleware('cor
 Route::get('/chaocomment/getComments/{tipid}/{startid}/{counts}','ChaocommentController@getComments')->middleware('cors');
 Route::get('/voteitem/getVoteitem/{id}','VoteitemController@getVoteitem')->middleware('cors');
 
-Route::group(['middleware' => ['cors','checkTipid','checkIp','throttle:20']],function(){
-    Route::post('/voterecord/storeB/11172','VoterecordController@store');
-    Route::post('/voterecord/storeB/11173','VoterecordController@store');
-    Route::post('/voterecord/storeB/11174','VoterecordController@store');
-    Route::post('/voterecord/storeB/11175','VoterecordController@store');
-    Route::post('/voterecord/storeB/11176','VoterecordController@store');
-    Route::post('/voterecord/storeB/11177','VoterecordController@store');
-    Route::post('/voterecord/storeB/11178','VoterecordController@store')->middleware('throttle:8');
-    Route::post('/voterecord/storeB/11179','VoterecordController@store');
-    Route::post('/voterecord/storeB/11180','VoterecordController@store');
-    Route::post('/voterecord/storeB/11181','VoterecordController@store');
-    Route::post('/voterecord/storeB/11182','VoterecordController@store')->middleware('throttle:10');
-    Route::post('/voterecord/storeB/11183','VoterecordController@store');
-    Route::post('/voterecord/storeB/11184','VoterecordController@store')->middleware('throttle:8');
-    Route::post('/voterecord/storeB/11185','VoterecordController@store')->middleware('throttle:8');
-    Route::post('/voterecord/storeB/11186','VoterecordController@store')->middleware('throttle:8');
-    Route::post('/voterecord/storeB/11187','VoterecordController@store')->middleware('throttle:8');
-    Route::post('/voterecord/storeB/11188','VoterecordController@store')->middleware('throttle:8');
-    Route::post('/voterecord/storeB/11189','VoterecordController@store');
-    Route::post('/voterecord/storeB/11190','VoterecordController@store')->middleware('throttle:8');
-    Route::post('/voterecord/storeB/11191','VoterecordController@store');
+Route::group(['middleware' => ['cors','checkTipid','checkIp']],function(){
+    Route::group(['middleware' => 'throttle:20'],function(){
+        Route::post('/voterecord/storeB/11172','VoterecordController@store');
+        Route::post('/voterecord/storeB/11173','VoterecordController@store');
+        Route::post('/voterecord/storeB/11174','VoterecordController@store');
+        Route::post('/voterecord/storeB/11175','VoterecordController@store');
+        Route::post('/voterecord/storeB/11176','VoterecordController@store');
+        Route::post('/voterecord/storeB/11177','VoterecordController@store');
+        Route::post('/voterecord/storeB/11179','VoterecordController@store');
+        Route::post('/voterecord/storeB/11180','VoterecordController@store');
+        Route::post('/voterecord/storeB/11181','VoterecordController@store');
+        Route::post('/voterecord/storeB/11183','VoterecordController@store');
+        Route::post('/voterecord/storeB/11189','VoterecordController@store');
+        Route::post('/voterecord/storeB/11191','VoterecordController@store');
+    });
+    Route::group(['middleware' => 'throttle:8'],function(){
+        Route::post('/voterecord/storeB/11178','VoterecordController@store');
+        Route::post('/voterecord/storeB/11182','VoterecordController@store');
+        Route::post('/voterecord/storeB/11184','VoterecordController@store');
+        Route::post('/voterecord/storeB/11185','VoterecordController@store');
+        Route::post('/voterecord/storeB/11186','VoterecordController@store');
+        Route::post('/voterecord/storeB/11187','VoterecordController@store');
+        Route::post('/voterecord/storeB/11188','VoterecordController@store');
+        Route::post('/voterecord/storeB/11190','VoterecordController@store');
+    });
 });
 
 
