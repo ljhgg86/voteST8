@@ -51,7 +51,6 @@ class Voterecord extends Model
             //$voterecordInfo = "--".$voterecordItem->vtid."--".$voterecordItemid."--".$voterecordItem->itemcontent;
             // $voterecordItemid = $voterecords['voterecord'];
             $voterecordInfo = $voterecordItemid;
-            //$voterecordInfo = "A".$voterecordItemid;
             $voterecordsArr[] = array('tipid'=>$voterecords['tipid'],
                                     'localrecord'=>$voterecords['localrecord'],
                                     'userip'=>$clientIp,
@@ -66,9 +65,7 @@ class Voterecord extends Model
         DB::beginTransaction();
         try{
             DB::table('voterecord')->insert($voterecordsArr);
-            //if(!(in_array($voterecords['voterecord'][0],$unIncreVoteArr) && strtotime($votetime)<strtotime($refuseTime))){
-                DB::table('voteitem')->whereIn('id',$voterecords['voterecord'])->increment('votecount');
-            //}
+            DB::table('voteitem')->whereIn('id',$voterecords['voterecord'])->increment('votecount');
             //DB::table('voteitem')->where('id',$voterecordItemid)->increment('votecount');
             DB::commit();
         }catch(Exception $e){
