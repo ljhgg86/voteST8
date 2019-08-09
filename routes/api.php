@@ -32,19 +32,20 @@ Route::group(['middleware' => ['cors','checkTipid','checkIp','throttle:20']],fun
     Route::post('/voterecord/storeB/11175','VoterecordController@store');
     Route::post('/voterecord/storeB/11176','VoterecordController@store');
     Route::post('/voterecord/storeB/11177','VoterecordController@store');
-    Route::post('/voterecord/storeB/11178','VoterecordController@store');
+    Route::post('/voterecord/storeB/11178','VoterecordController@store')->middleware('throttle:8');
     Route::post('/voterecord/storeB/11179','VoterecordController@store');
     Route::post('/voterecord/storeB/11180','VoterecordController@store');
     Route::post('/voterecord/storeB/11181','VoterecordController@store');
-    Route::post('/voterecord/storeB/11182','VoterecordController@store');
+    Route::post('/voterecord/storeB/11182','VoterecordController@store')->middleware('throttle:10');
     Route::post('/voterecord/storeB/11183','VoterecordController@store');
-    Route::post('/voterecord/storeB/11184','VoterecordController@store');
-    Route::post('/voterecord/storeB/11185','VoterecordController@store');
-    Route::post('/voterecord/storeB/11186','VoterecordController@store');
-    Route::post('/voterecord/storeB/11187','VoterecordController@store');
-    Route::post('/voterecord/storeB/11188','VoterecordController@store');
+    Route::post('/voterecord/storeB/11184','VoterecordController@store')->middleware('throttle:8');
+    Route::post('/voterecord/storeB/11185','VoterecordController@store')->middleware('throttle:8');
+    Route::post('/voterecord/storeB/11186','VoterecordController@store')->middleware('throttle:8');
+    Route::post('/voterecord/storeB/11187','VoterecordController@store')->middleware('throttle:8');
+    Route::post('/voterecord/storeB/11188','VoterecordController@store')->middleware('throttle:8');
     Route::post('/voterecord/storeB/11189','VoterecordController@store');
-    Route::post('/voterecord/storeB/11190','VoterecordController@store');
+    Route::post('/voterecord/storeB/11190','VoterecordController@store')->middleware('throttle:8');
     Route::post('/voterecord/storeB/11191','VoterecordController@store');
 });
+
 
