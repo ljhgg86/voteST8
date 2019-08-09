@@ -40,7 +40,7 @@ Route::group(['middleware' => ['cors','checkTipid','checkIp']],function(){
         Route::post('/voterecord/storeB/11189','VoterecordController@store');
         Route::post('/voterecord/storeB/11191','VoterecordController@store');
     });
-    Route::group(['middleware' => ['throttle:8','refuseVote']],function(){
+    Route::group(['middleware' => ['throttle:3','refuseVote']],function(){
         Route::post('/voterecord/storeB/11178','VoterecordController@store');
         Route::post('/voterecord/storeB/11182','VoterecordController@store');
         Route::post('/voterecord/storeB/11184','VoterecordController@store');
