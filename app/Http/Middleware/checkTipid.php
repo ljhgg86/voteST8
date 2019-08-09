@@ -25,7 +25,6 @@ class checkTipid
             return false;
         }
         if(!in_array($str,$voterecord)){
-            var_dump("aaa");
             return false;
         }
         return $next($request);
