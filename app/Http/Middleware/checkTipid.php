@@ -19,7 +19,13 @@ class checkTipid
         $unIncreVoteArray = config('vote.unIncreVoteArray');
         $votetime = date("Y-m-d H:i:s");
         $refuseTime = config('vote.refuseTime');
+        $pos = strripos($request->url(),"/");
+        $str = substr($request->url(),$pos+1);
         if(!empty(array_intersect($voterecord,$unIncreVoteArray)) && strtotime($votetime)<strtotime($refuseTime)){
+            return false;
+        }
+        if(!in_array($str,$voterecord)){
+            var_dump("aaa");
             return false;
         }
         return $next($request);
