@@ -21,14 +21,20 @@ class ControllVote
         $tipid = $request->input('tipid');
         $tipidsArr = config('vote.tipidsArr');
         $controllCounts = config('vote.controllCounts');
+        $limitCounts = config('vote.limitCounts');
+        $limitVoteArr = config('vote.limitVoteArr');
         $voterecordModel = new Voterecord();
         $voterecordCounts = $voterecordModel->getrecordCounts($tipid);
         if(count($voterecord) != count(array_unique($voterecord)) || $votenum != count(array_intersect($voterecord,$tipidsArr))){
             return false;
         }
+        if(!empty(array_intersect($voterecord,$limitVoteArr)) && $limitCounts < $voterecordCounts) {   
+            return false;
+        }
         if($controllCounts < $voterecordCounts){
             return false;
         }
+        
         return $next($request);
     }
 }
