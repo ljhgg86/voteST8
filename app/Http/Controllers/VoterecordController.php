@@ -44,18 +44,13 @@ class VoterecordController extends Controller
      */
     public function storeVote(Request $request)
     {
-        //$res = $this->voterecord->create($request->all());
-       $voterecords = $request->all();
-        $tipid = $voterecords['tipid'];
-        $browsertype = $voterecords['browsertype'];
-        $localrecord = $voterecords['localrecord'];
-        $wenick = $voterecords['wenick'];
-        if($this->voterecord->recordExist($tipid,$browsertype,$localrecord,$wenick)){
-            return response()->json([
-                'status'=>false,
-                'message'=>'您已经投过票了!'
-            ]);
-        }
+        $voterecords = $request->all();
+        // if($this->voterecord->recordExist($voterecords)){
+        //     return response()->json([
+        //         'status'=>false,
+        //         'message'=>'您已经投过票了!'
+        //     ]);
+        // }
         $res = $this->voterecord->saveVoterecord($voterecords);
         if($res){
             return response()->json([

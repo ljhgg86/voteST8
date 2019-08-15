@@ -35,33 +35,42 @@ class Voterecord extends Model
      */
     public function saveVoterecord($voterecords){
         $votetime = date("Y-m-d H:i:s");
-        $refuseTime = config('vote.refuseTime');
-        $unIncreVoteArr = config('vote.unIncreVoteArray');
-        //the below 5 rows code for voteST8 checksum
         $clientIp = $this->getClientIp();
-        $str = $voterecords['localrecord']."yyy";
-        $checksum = md5($str);
-        //if($clientIp != config('vote.clientIp') || $checksum != $voterecords['key']){
-        if($checksum != $voterecords['key']){
-            return false;
-        }
-        $voterecordsArr = array();
-        foreach($voterecords['voterecord'] as $voterecordItemid){
-            // $voterecordItem = Voteitem::find($voterecordItemid);
-            //$voterecordInfo = "--".$voterecordItem->vtid."--".$voterecordItemid."--".$voterecordItem->itemcontent;
-            // $voterecordItemid = $voterecords['voterecord'];
-            $voterecordInfo = $voterecordItemid;
-            $voterecordsArr[] = array('tipid'=>$voterecords['tipid'],
-                                    'localrecord'=>$voterecords['localrecord'],
-                                    'userip'=>$clientIp,
-                                    'userphone'=>"A".$voterecords['userphone'],
-                                    'votetime'=>$votetime,
-                                    'voterecord'=>$voterecordInfo,
-                                    'uscore'=>$voterecords['uscore'],
-                                    'browsertype'=>$voterecords['browsertype'],
-                                    'wenick'=>$voterecords['wenick']
-                                );
-        }
+        // $str = $voterecords['localrecord']."123";
+        // $tempstr1 = intval(substr($voterecords['localrecord'],16,2));
+        // $tempstr2 = intval(substr($voterecords['localrecord'],12,2));
+        // $checksum = md5($str);
+        // if($checksum != $voterecords['key']){
+        //     return false;
+        // }
+        //  if(($tempstr1 - $tempstr2) != 13 || strlen($voterecords['localrecord']) != 19){
+        //     return false;
+        // }
+        // $voterecordsArr = array();
+        // foreach($voterecords['voterecord'] as $voterecordItemid){
+        //     $voterecordInfo = $voterecordItemid;
+        //     $voterecordsArr[] = array('tipid'=>$voterecords['tipid'],
+        //                             'localrecord'=>$voterecords['localrecord'],
+        //                             'userip'=>$clientIp,
+        //                             'userphone'=>"A".$voterecords['userphone'],
+        //                             'votetime'=>$votetime,
+        //                             'voterecord'=>$voterecordInfo,
+        //                             'uscore'=>$voterecords['uscore'],
+        //                             'browsertype'=>$voterecords['browsertype'],
+        //                             'wenick'=>$voterecords['wenick']
+        //                         );
+        // }
+        $voterecordInfo = implode("--",$voterecords['voterecord']);
+        $voterecordsArr = array('tipid'=>$voterecords['tipid'],
+                                'localrecord'=>$voterecords['localrecord'],
+                                'userip'=>$clientIp,
+                                'userphone'=>$voterecords['userphone'],
+                                'votetime'=>$votetime,
+                                'voterecord'=>$voterecordInfo,
+                                'uscore'=>$voterecords['uscore'],
+                                'browsertype'=>$voterecords['browsertype'],
+                                'wenick'=>$voterecords['wenick']
+                            );
         DB::beginTransaction();
         try{
             DB::table('voterecord')->insert($voterecordsArr);
@@ -141,12 +150,6 @@ class Voterecord extends Model
             }
         }
         return $record;
-        // if($browsertype == $WECHATTYPE){
-        //     return $this->werecordExist($tipid,$wenick,$voterecord,$voterate);
-        // }
-        // else{
-        //     return $this->localrecordExist($tipid,$localrecord,$voterecord,$voterate);
-        // }
     }
 
     /**
@@ -252,6 +255,17 @@ class Voterecord extends Model
                         ->count();
         }
 
+    }
+
+    /**
+     * 获取指定秒数controllTime前到现在的记录数
+     */
+    public function getrecordCounts($tipid){
+        $controllTime = config('vote.controllTime');
+        $controllTimeAgo = date('Y-m-d H:i:s',time() - $controllTime);
+        return $this->where('tipid',$tipid)
+                    ->where('votetime' , '>' , $controllTimeAgo)
+                    ->count();
     }
 
     /**

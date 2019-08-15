@@ -6,9 +6,12 @@ return [
     'readnumIncreMin' => 1,
     'readnumIncreMax' => 1,
     'clientIp' =>'10.16.11.6',
-    'refuseTime' => '2019-08-12 00:00:00',
-    'unIncreVoteArray' => array('11182'),
-    'refuseIpArray' =>array('36.157.16.32','14.17.22.33','113.5.187.34'),
+    'refuseTime' => '2019-08-14 13:00:00',
+    'unIncreVoteArray' => array('11185'),
+    'refuseIpArray' =>array(),
     'refuseMinTime' => '01:00:00',
-    'refuseMaxTime' => '05:00:00'
+    'refuseMaxTime' => '05:00:00',
+    'tipidsArr' => array('11172','11173','11174','11175','11176','11177','11178','11179','11180','11181','11182','11183','11184','11185','11186','11187','11188','11189','11190','11191'),
+    'controllTime' => 900,
+    'controllCounts' => 250
 ];
