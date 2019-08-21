@@ -17,7 +17,8 @@ class ControllVote
     public function handle($request, Closure $next)
     {
         $voterecord = $request->input('voterecord');
-        $votenum = $request->input('votenum');
+        //$votenum = $request->input('votenum');
+        $votenum = config('vote.voteNum');
         $tipid = $request->input('tipid');
         $tipidsArr = config('vote.tipidsArr');
         $controllCounts = config('vote.controllCounts');
@@ -28,13 +29,13 @@ class ControllVote
         if(count($voterecord) != count(array_unique($voterecord)) || $votenum != count(array_intersect($voterecord,$tipidsArr))){
             return false;
         }
-        if(!empty(array_intersect($voterecord,$limitVoteArr)) && $limitCounts < $voterecordCounts) {   
+        if(!empty(array_intersect($voterecord,$limitVoteArr)) && $limitCounts < $voterecordCounts) {
             return false;
         }
         if($controllCounts < $voterecordCounts){
             return false;
         }
-        
+
         return $next($request);
     }
 }
