@@ -15,6 +15,6 @@ return [
     'controllTime' => 900,
     'controllCounts' => 250,
     'limitCounts' => 100,
-    'limitVoteArr' => array('11187'),
+    'limitVoteArr' => array('11187','11188'),
     'voteNum' => 8
 ];
