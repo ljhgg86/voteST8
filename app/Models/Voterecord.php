@@ -36,16 +36,6 @@ class Voterecord extends Model
     public function saveVoterecord($voterecords){
         $votetime = date("Y-m-d H:i:s");
         $clientIp = $this->getClientIp();
-        // $str = $voterecords['localrecord']."123";
-        // $tempstr1 = intval(substr($voterecords['localrecord'],16,2));
-        // $tempstr2 = intval(substr($voterecords['localrecord'],12,2));
-        // $checksum = md5($str);
-        // if($checksum != $voterecords['key']){
-        //     return false;
-        // }
-        //  if(($tempstr1 - $tempstr2) != 13 || strlen($voterecords['localrecord']) != 19){
-        //     return false;
-        // }
         // $voterecordsArr = array();
         // foreach($voterecords['voterecord'] as $voterecordItemid){
         //     $voterecordInfo = $voterecordItemid;

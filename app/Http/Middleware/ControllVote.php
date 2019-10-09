@@ -26,7 +26,10 @@ class ControllVote
         $limitVoteArr = config('vote.limitVoteArr');
         $voterecordModel = new Voterecord();
         $voterecordCounts = $voterecordModel->getrecordCounts($tipid);
-        if(count($voterecord) != count(array_unique($voterecord)) || $votenum != count(array_intersect($voterecord,$tipidsArr))){
+        // if(count($voterecord) != count(array_unique($voterecord)) || $votenum != count(array_intersect($voterecord,$tipidsArr))){
+        //     return false;
+        // }
+        if(count($voterecord) != count(array_unique($voterecord))){
             return false;
         }
         if(!empty(array_intersect($voterecord,$limitVoteArr)) && $limitCounts < $voterecordCounts) {
