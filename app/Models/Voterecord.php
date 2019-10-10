@@ -197,6 +197,75 @@ class Voterecord extends Model
     }
 
     /**
+     * 判断当前用户（localstorage或者phone或者微信昵称）是否已经有投票过
+     *
+     * @param int $tipid
+     * @param int $browsertype
+     * @param string $localrecord
+     * @param string $wenick
+     * @return voterecord
+     */
+    public function userHasVoted($tipid,$browsertype,$localrecord,$wenick,$voterate){
+        $WECHATTYPE = config('vote.weChatType');
+        if($browsertype == $WECHATTYPE){
+            return $this->weuserHasVoted($tipid,$wenick,$voterate);
+        }
+        else{
+            return $this->localuserHasVoted($tipid,$localrecord,$voterate);
+        }
+    }
+
+    /**
+     * 指定非微信用户关于指定tipid的投票记录
+     *
+     * @param int $tipid
+     * @param string $localrecord
+     * @return voterecord
+     */
+    public function localuserHasVoted($tipid,$localrecord,$voterate){
+        $WECHATTYPE = config('vote.weChatType');
+        if($voterate == 0){
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype','<>',$WECHATTYPE)
+                        ->where('localrecord',$localrecord)
+                        ->first();
+        }
+        else{
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype','<>',$WECHATTYPE)
+                        ->where('localrecord',$localrecord)
+                        ->whereDate('votetime',date('Y-m-d'))
+                        ->first();
+        }
+
+    }
+
+    /**
+     * 指定微信用户关于指定tipid的投票记录
+     *
+     * @param int $tipid
+     * @param string $wenick
+     * @return voterecord
+     */
+    public function weuserHasVoted($tipid,$wenick,$voterate){
+        $WECHATTYPE = config('vote.weChatType');
+        if($voterate == 0){
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype',$WECHATTYPE)
+                        ->where('wenick',$wenick)
+                        ->first();
+        }
+        else{
+            return $this->where('tipid',$tipid)
+                        ->where('browsertype',$WECHATTYPE)
+                        ->where('wenick',$wenick)
+                        ->whereDate('votetime',date('Y-m-d'))
+                        ->first();
+        }
+
+    }
+
+    /**
      * 指定非微信用户关于指定tipid的已经投票记录数
      *
      * @param int $tipid
