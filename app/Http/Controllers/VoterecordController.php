@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Voterecord;
+use App\Models\Chaosky;
 use Response;
 
 class VoterecordController extends Controller
@@ -50,6 +51,13 @@ class VoterecordController extends Controller
         $localrecord = $voterecords['localrecord'];
         $wenick = $voterecords['wenick'];
         $voterate = $voterecords['voterate'];
+        $chaosky = Chaosky::where('tipid',$tipid)->first();
+        if(date("Y-m-d H:i:s")>$chaosky->vetime){
+            return response()->json([
+                'status'=>false,
+                'message'=>'投票已经结束'
+            ]);
+        }
         if($this->voterecord->userHasVoted($tipid,$browsertype,$localrecord,$wenick,$voterate)){
             return response()->json([
                 'status'=>false,
