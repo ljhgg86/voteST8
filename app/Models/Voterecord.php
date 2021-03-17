@@ -36,35 +36,44 @@ class Voterecord extends Model
     public function saveVoterecord($voterecords){
         $votetime = date("Y-m-d H:i:s");
         $clientIp = $this->getClientIp();
-        // $voterecordsArr = array();
-        // foreach($voterecords['voterecord'] as $voterecordItemid){
-        //     $voterecordInfo = $voterecordItemid;
-        //     $voterecordsArr[] = array('tipid'=>$voterecords['tipid'],
-        //                             'localrecord'=>$voterecords['localrecord'],
-        //                             'userip'=>$clientIp,
-        //                             'userphone'=>"A".$voterecords['userphone'],
-        //                             'votetime'=>$votetime,
-        //                             'voterecord'=>$voterecordInfo,
-        //                             'uscore'=>$voterecords['uscore'],
-        //                             'browsertype'=>$voterecords['browsertype'],
-        //                             'wenick'=>$voterecords['wenick']
-        //                         );
-        // }
-        $voterecordInfo = implode("--",$voterecords['voterecord']);
-        $voterecordsArr = array('tipid'=>$voterecords['tipid'],
-                                'localrecord'=>$voterecords['localrecord'],
-                                'userip'=>$clientIp,
-                                'userphone'=>$voterecords['userphone'],
-                                'votetime'=>$votetime,
-                                'voterecord'=>$voterecordInfo,
-                                'uscore'=>$voterecords['uscore'],
-                                'browsertype'=>$voterecords['browsertype'],
-                                'wenick'=>$voterecords['wenick']
-                            );
+        $voterecordsArr = array();
+        $voteItems = array();
+        foreach($voterecords['voterecords'] as $voteRecord){
+            $voteTitle = Votetitle::where('vtid', $voteRecord['vtid'])->first();
+            // dump($voteRecord['voteItems']);
+            // dd(json_encode($voteTitle));
+            if(count($voteRecord['voteItems']) > $voteTitle->votenum){
+                return false;
+            }
+            $voterecordsArr[] = array('tipid'=>$voterecords['tipid'],
+                                    'localrecord'=>$voterecords['localrecord'],
+                                    'userip'=>$clientIp,
+                                    'userphone'=>$voterecords['userphone'],
+                                    'votetime'=>$votetime,
+                                    'voterecord'=>implode("--",$voteRecord['voteItems']),
+                                    'uscore'=>$voterecords['uscore'],
+                                    'browsertype'=>$voterecords['browsertype'],
+                                    'wenick'=>$voterecords['wenick']
+                                );
+            $voteItems = array_merge($voteItems, $voteRecord['voteItems']);
+        }
+
+        // $voterecordInfo = implode("--",$voterecords['voterecord']);
+        // $voterecordsArr = array('tipid'=>$voterecords['tipid'],
+        //                         'localrecord'=>$voterecords['localrecord'],
+        //                         'userip'=>$clientIp,
+        //                         'userphone'=>$voterecords['userphone'],
+        //                         'votetime'=>$votetime,
+        //                         'voterecord'=>$voterecordInfo,
+        //                         'uscore'=>$voterecords['uscore'],
+        //                         'browsertype'=>$voterecords['browsertype'],
+        //                         'wenick'=>$voterecords['wenick']
+        //                     );
         DB::beginTransaction();
         try{
             DB::table('voterecord')->insert($voterecordsArr);
-            DB::table('voteitem')->whereIn('id',$voterecords['voterecord'])->increment('votecount');
+            DB::table('voteitem')->whereIn('id',$voteItems)->increment('votecount');
+            //DB::table('voteitem')->whereIn('id',$voterecords['voterecord'])->increment('votecount');
             //DB::table('voteitem')->where('id',$voterecordItemid)->increment('votecount');
             DB::commit();
         }catch(Exception $e){
