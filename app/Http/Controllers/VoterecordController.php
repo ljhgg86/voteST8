@@ -52,10 +52,10 @@ class VoterecordController extends Controller
         $wenick = $voterecords['wenick'];
         $voterate = $voterecords['voterate'];
         $chaosky = Chaosky::where('tipid',$tipid)->first();
-        if(date("Y-m-d H:i:s")>$chaosky->vetime){
+        if(date("Y-m-d H:i:s")>$chaosky->vetime || date("Y-m-d H:i:s")<$chaosky->vbtime){
             return response()->json([
                 'status'=>false,
-                'message'=>'投票已经结束'
+                'message'=>'不在投票时间内!'
             ]);
         }
         if($this->voterecord->userHasVoted($tipid,$browsertype,$localrecord,$wenick,$voterate)){
