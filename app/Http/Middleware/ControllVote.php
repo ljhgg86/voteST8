@@ -38,6 +38,7 @@ class ControllVote
             return false;
         }
         if($controllCounts < $voterecordCounts){//限制所有投票选项在过去controllTime时间段内最大数不超过limitCounts
+        
             return false;
         }
 
