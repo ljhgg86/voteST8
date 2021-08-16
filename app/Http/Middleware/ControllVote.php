@@ -29,13 +29,13 @@ class ControllVote
         // if(count($voterecord) != count(array_unique($voterecord)) || $votenum != count(array_intersect($voterecord,$tipidsArr))){
         //     return false;
         // }
-        if(count($voterecord) != count(array_unique($voterecord))){
+        if(count($voterecord) != count(array_unique($voterecord))){//选择的选项必须唯一
             return false;
         }
-        if(!empty(array_intersect($voterecord,$limitVoteArr)) && $limitCounts < $voterecordCounts) {
+        if(!empty(array_intersect($voterecord,$limitVoteArr)) && $limitCounts < $voterecordCounts) {//限制的组在限制时间内投票不能超过limitCounts
             return false;
         }
-        if($controllCounts < $voterecordCounts){
+        if($controllCounts < $voterecordCounts){//所有投票在限制时间内不能超过controllCounts
             return false;
         }
 
