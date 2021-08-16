@@ -16,7 +16,9 @@ class ControllVote
      */
     public function handle($request, Closure $next)
     {
-        $voterecord = $request->input('voterecord');
+        //$voterecord = $request->input('voterecord');
+        $voterecords = $request->input('voterecords');
+        $voterecord = $voterecords[0]['voteItems'];
         //$votenum = $request->input('votenum');
         $votenum = config('vote.voteNum');
         $tipid = $request->input('tipid');
@@ -29,13 +31,13 @@ class ControllVote
         // if(count($voterecord) != count(array_unique($voterecord)) || $votenum != count(array_intersect($voterecord,$tipidsArr))){
         //     return false;
         // }
-        if(count($voterecord) != count(array_unique($voterecord))){
+        if(count($voterecord) != count(array_unique($voterecord))){//限制选择多个投票时提交同一个id
             return false;
         }
-        if(!empty(array_intersect($voterecord,$limitVoteArr)) && $limitCounts < $voterecordCounts) {
+        if(!empty(array_intersect($voterecord,$limitVoteArr)) && $limitCounts < $voterecordCounts) {//限制指定组limitVoteArr在过去controllTime时间段内最大数不超过limitCounts
             return false;
         }
-        if($controllCounts < $voterecordCounts){
+        if($controllCounts < $voterecordCounts){//限制所有投票选项在过去controllTime时间段内最大数不超过limitCounts
             return false;
         }
 
