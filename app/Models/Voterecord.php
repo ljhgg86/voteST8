@@ -339,6 +339,18 @@ class Voterecord extends Model
     }
 
     /**
+     * 获取某个选项itemid在指定秒数controllTime前到现在的记录数
+     */
+    public function getItemRecordCounts($tipid, $itemid){
+        $controllTime = config('vote.controllTime');
+        $controllTimeAgo = date('Y-m-d H:i:s',time() - $controllTime);
+        return $this->where('tipid',$tipid)
+                    ->where('voterecord', 'like', '%'.$itemid.'%')
+                    ->where('votetime' , '>' , $controllTimeAgo)
+                    ->count();
+    }
+
+    /**
      * 获取客户端IP
      */
     public function getClientIp() {

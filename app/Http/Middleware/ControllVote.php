@@ -27,7 +27,8 @@ class ControllVote
         $limitCounts = config('vote.limitCounts');
         $limitVoteArr = config('vote.limitVoteArr');
         $voterecordModel = new Voterecord();
-        $voterecordCounts = $voterecordModel->getrecordCounts($tipid);
+        //$voterecordCounts = $voterecordModel->getrecordCounts($tipid);//统计整个投票的票数
+        $voterecordCounts = $voterecordModel->getItemRecordCounts($tipid, $voterecord[0]);//单选时，统计单个选项票数
         // if(count($voterecord) != count(array_unique($voterecord)) || $votenum != count(array_intersect($voterecord,$tipidsArr))){
         //     return false;
         // }
