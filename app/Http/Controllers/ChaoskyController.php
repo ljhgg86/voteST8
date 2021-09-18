@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Storage;
+
 use App\Models\Chaosky;
 use App\Models\Voteitem;
 use App\Models\Voterecord;
 use App\Models\Votetitle;
+use Captcha;
+
 use Response;
 
 class ChaoskyController extends Controller
@@ -117,5 +121,13 @@ class ChaoskyController extends Controller
     public function updateReadnum(Request $request){
         $tipid = $request->input('tipid');
         $this->chaosky->where('tipid',$tipid)->increment('readnum');
+    }
+
+    public function codeImage(){
+        $captcha = Captcha::create('default', true);
+        $attr = \preg_split("/(,|;)/", $captcha['img']);
+        Storage::disk("public")->put('abc.png',base64_decode($attr[2]));
+        dd($captcha);
+        
     }
 }
