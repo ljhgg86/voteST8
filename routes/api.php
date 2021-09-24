@@ -16,10 +16,11 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/chaosky/codeImage','ChaoskyController@codeImage')->middleware('cors');
+Route::get('/codeimage/codeImage','CodeimgController@codeImage')->middleware('cors');
+Route::post('/codeimage/validateCode','CodeimgController@validateCode')->middleware('cors');
 Route::get('/chaosky/show/{id}','ChaoskyController@show')->middleware('cors');
 //Route::post('/chaosky/updateReadnum','ChaoskyController@updateReadnum')->middleware('cors');
-Route::post('/voterecord/store32','VoterecordController@storeVote')->middleware('cors','controllVote');
+Route::post('/voterecord/store','VoterecordController@storeVote')->middleware('cors','controllVote');
 //Route::post('/voterecord/store/{id}','VoterecordController@storeList')->middleware('cors','checkTipid');
 //Route::post('/votetitle/updateVotenum','VotetitleController@updateVotenum')->middleware('cors');
 Route::post('/chaocomment/store','ChaocommentController@store')->middleware('cors');

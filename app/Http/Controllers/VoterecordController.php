@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Voterecord;
 use App\Models\Chaosky;
+use App\Models\Codeimage;
 use Response;
 
 class VoterecordController extends Controller
@@ -16,6 +17,7 @@ class VoterecordController extends Controller
     public function __construct()
     {
         $this->voterecord=new Voterecord();
+        $this->codeimage = new Codeimage();
     }
     /**
      * Display a listing of the resource.
@@ -46,6 +48,15 @@ class VoterecordController extends Controller
     public function storeVote(Request $request)
     {
         $voterecords = $request->all();
+        $key = $voterecords['key'];
+        $code = $voterecords['code'];
+        if(!($this->codeimage->validateCode($code, $key))){
+            return response()->json([
+                'status' => false,
+                'message' => '验证码错误!',
+                'data' => ''
+            ]);
+        }
         $tipid = $voterecords['tipid'];
         $browsertype = $voterecords['browsertype'];
         $localrecord = $voterecords['localrecord'];
@@ -81,6 +92,15 @@ class VoterecordController extends Controller
         // $pos = strripos($request->url(),"/");
         // $str = substr($request->url(),$pos+1);
         $voterecords = $request->all();
+        // $key = $voterecords['key'];
+        // $code = $voterecords['code'];
+        // if(!($this->codeimage->validateCode($code, $key))){
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => '验证码错误!'
+        //     ]);
+        // }
+
         $tipid = $voterecords['tipid'];
         $browsertype = $voterecords['browsertype'];
         $localrecord = $voterecords['localrecord'];
