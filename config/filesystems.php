@@ -64,6 +64,14 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        //自定义文件上传规则
+        'codeImages' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/codeImages'),  //storage_path对应的是storage目录
+            'url' => env('APP_URL').'/storage/codeImages',
+            'visibility' => 'public',
+          ],
+
     ],
 
 ];

@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/codeimage/codeImage','CodeimgController@codeImage')->middleware('cors');
+Route::post('/codeimage/validateCode','CodeimgController@validateCode')->middleware('cors');
 Route::get('/chaosky/show/{id}','ChaoskyController@show')->middleware('cors');
 //Route::post('/chaosky/updateReadnum','ChaoskyController@updateReadnum')->middleware('cors');
 Route::post('/voterecord/store','VoterecordController@storeVote')->middleware('cors','controllVote');
