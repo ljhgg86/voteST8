@@ -50,6 +50,13 @@ class VoterecordController extends Controller
         $voterecords = $request->all();
         $key = $voterecords['key'];
         $code = $voterecords['code'];
+        if(!$code){
+            return response()->json([
+                'status' => false,
+                'message' => '验证码错误!',
+                'data' => ''
+            ]);
+        }
         if(!($this->codeimage->validateCode($code, $key))){
             return response()->json([
                 'status' => false,

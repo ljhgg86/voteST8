@@ -1,7 +1,17 @@
 <?php
-
+/**
+ * 中文成语验证码，需要在vender/mews/captcha/src/Captcha.php修改220行字体目录、339行字符不随机生成
+ */
+$chengyus = file('../resources/chengyu.txt');
+$rand = rand(0,count($chengyus)-1);
+$code = $chengyus[$rand];
+$characters = [];
+for($i = 0; $i < strlen($code); $i++){
+    $characters[$i] = mb_substr($code,$i,1,'UTF-8');
+}
 return [
-    'characters' => ['2', '3', '4', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'm', 'n', 'p', 'q', 'r', 't', 'u', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'M', 'N', 'P', 'Q', 'R', 'T', 'U', 'X', 'Y', 'Z'],
+    //'characters' => ['2', '3', '4', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'm', 'n', 'p', 'q', 'r', 't', 'u', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'M', 'N', 'P', 'Q', 'R', 'T', 'U', 'X', 'Y', 'Z'],
+    'characters' => $characters,
     'default' => [
         'length' => 4,
         'width' => 120,
@@ -9,7 +19,7 @@ return [
         'quality' => 90,
         'math' => false,
         'expire' => 600,
-        'encrypt' => false,
+        'encrypt' => false
     ],
     'math' => [
         'length' => 9,
