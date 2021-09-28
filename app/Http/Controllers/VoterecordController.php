@@ -48,8 +48,8 @@ class VoterecordController extends Controller
     public function storeVote(Request $request)
     {
         $voterecords = $request->all();
-        $key = $voterecords['key'];
-        $code = $voterecords['code'];
+        $key = isset($voterecords['key'])?$voterecords['key']:'';
+        $code = isset($voterecords['code'])?$voterecords['code']:'';
         if(!$code){
             return response()->json([
                 'status' => false,
