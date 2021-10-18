@@ -244,8 +244,8 @@ class Voterecord extends Model
                         ->where('browsertype','<>',$WECHATTYPE)
                         ->where('localrecord',$localrecord)
                         ->whereDate('votetime',date('Y-m-d'))
-                        ->first();
-                        //->count()>=2;
+                        //->first();
+                        ->count()>=$voterate;
         }
 
     }
@@ -270,8 +270,8 @@ class Voterecord extends Model
                         ->where('browsertype',$WECHATTYPE)
                         ->where('wenick',$wenick)
                         ->whereDate('votetime',date('Y-m-d'))
-                        ->first();
-                        //->count()>=2;
+                        //->first();
+                        ->count()>=$voterate;
         }
 
     }

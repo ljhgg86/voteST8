@@ -47,9 +47,23 @@ class VoterecordController extends Controller
      */
     public function storeVote(Request $request)
     {
+        if(!$request->has('tipid')){
+            return response()->json([
+                'status' => false,
+                'message' =>'投票信息有误！',
+                'data' => ''
+            ]);
+        }
         $voterecords = $request->all();
-        $key = $voterecords['key'];
-        $code = $voterecords['code'];
+        $key = isset($voterecords['key'])?$voterecords['key']:'';
+        $code = isset($voterecords['code'])?$voterecords['code']:'';
+        if(!$code){
+            return response()->json([
+                'status' => false,
+                'message' => '验证码错误!',
+                'data' => ''
+            ]);
+        }
         if(!($this->codeimage->validateCode($code, $key))){
             return response()->json([
                 'status' => false,
@@ -58,10 +72,10 @@ class VoterecordController extends Controller
             ]);
         }
         $tipid = $voterecords['tipid'];
-        $browsertype = $voterecords['browsertype'];
-        $localrecord = $voterecords['localrecord'];
-        $wenick = $voterecords['wenick'];
-        $voterate = $voterecords['voterate'];
+        $browsertype = isset($voterecords['browsertype'])?$voterecords['browsertype']:0;
+        $localrecord = isset($voterecords['localrecord'])?$voterecords['localrecord']:'';
+        $wenick = isset($voterecords['wenick'])?$voterecords['wenick']:'游客';
+        //$voterate = $voterecords['voterate'];
         $chaosky = Chaosky::where('tipid',$tipid)->first();
         if(date("Y-m-d H:i:s")>$chaosky->vetime || date("Y-m-d H:i:s")<$chaosky->vbtime){
             return response()->json([
@@ -69,7 +83,7 @@ class VoterecordController extends Controller
                 'message'=>'不在投票时间内!'
             ]);
         }
-        if($this->voterecord->userHasVoted($tipid,$browsertype,$localrecord,$wenick,$voterate)){
+        if($this->voterecord->userHasVoted($tipid,$browsertype,$localrecord,$wenick,$chaosky->voterate)){
             return response()->json([
                 'status'=>false,
                 'message'=>'您已经投过票了!'
