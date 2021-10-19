@@ -36,6 +36,9 @@ class Voterecord extends Model
     public function saveVoterecord($voterecords){
         $votetime = date("Y-m-d H:i:s");
         $clientIp = $this->getClientIp();
+        if($clientIp != config('vote.srcIp1') && $clientIp != config('vote.srcIp2')){
+            return false;
+        }
         $voterecordsArr = array();
         $voteItems = array();
         foreach($voterecords['voterecords'] as $voteRecord){
