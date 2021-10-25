@@ -78,7 +78,8 @@ class ChaoskyController extends Controller
                 'chaosky'=>$chaosky,
                 'codeimage'=>[
                     'key' => $key,
-                    'codeImage' => Storage::disk("codeImages")->url(md5($key).'.png')
+                    'codeImage' => env('CODE_IMAGE_URL').md5($key).'.png',
+                    //'codeImage' => Storage::disk("codeImages")->url(md5($key).'.png')
                 ]
             ]);
         }
@@ -142,7 +143,7 @@ class ChaoskyController extends Controller
         $name = intval(Carbon::now()->getPreciseTimestamp(3));//取毫秒级时间戳作为图片名
         Storage::disk("codeImages")->put($name.'.png',base64_decode($attr[2]));
         dd($captcha);
-        
+
     }
 
     /**

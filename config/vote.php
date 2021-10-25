@@ -16,5 +16,7 @@ return [
     'controllCounts' => 50,
     'limitCounts' => 20,
     'limitVoteArr' => array('14990','15000'),
-    'voteNum' => 8
+    'voteNum' => 8,
+    'srcIp1' => '10.16.11.1',
+    'srcIp2' => '10.16.11.201'
 ];
