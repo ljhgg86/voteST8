@@ -27,7 +27,8 @@ class CodeimgController extends Controller
             'message' => 'success',
             'data' => [
                 'key' => $key,
-                'codeImage' => Storage::disk("codeImages")->url(md5($key).'.png')
+                'codeImage' => env('CODE_IMAGE_URL').md5($key).'.png',
+                //'codeImage' => Storage::disk("codeImages")->url(md5($key).'.png')
             ]
         ]);
     }
