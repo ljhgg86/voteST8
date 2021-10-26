@@ -69,7 +69,13 @@ class ChaoskyController extends Controller
     public function show($id)
     {
          $chaosky = $this->chaosky->getChaosky($id);
-         $key = $this->codeimage->codeImage();
+         if($chaosky->codeflag){
+            $key = $this->codeimage->codeImage();
+         }
+         else{
+             $key = "null";
+         }
+         
         // if(!empty(json_decode($chaosky,true))){
         if($chaosky){
             return response()->json([

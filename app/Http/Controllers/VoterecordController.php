@@ -55,28 +55,32 @@ class VoterecordController extends Controller
             ]);
         }
         $voterecords = $request->all();
-        $key = isset($voterecords['key'])?$voterecords['key']:'';
-        $code = isset($voterecords['code'])?$voterecords['code']:'';
-        if(!$code){
-            return response()->json([
-                'status' => false,
-                'message' => '验证码错误!',
-                'data' => ''
-            ]);
-        }
-        if(!($this->codeimage->validateCode($code, $key))){
-            return response()->json([
-                'status' => false,
-                'message' => '验证码错误!',
-                'data' => ''
-            ]);
-        }
         $tipid = $voterecords['tipid'];
+        $chaosky = Chaosky::where('tipid',$tipid)->first();
+        if($chaosky->codeflag){
+            $key = isset($voterecords['key'])?$voterecords['key']:'';
+            $code = isset($voterecords['code'])?$voterecords['code']:'';
+            if(!$code){
+                return response()->json([
+                    'status' => false,
+                    'message' => '验证码错误!',
+                    'data' => ''
+                ]);
+            }
+            if(!($this->codeimage->validateCode($code, $key))){
+                return response()->json([
+                    'status' => false,
+                    'message' => '验证码错误!',
+                    'data' => ''
+                ]);
+            }
+        }
+        
         $browsertype = isset($voterecords['browsertype'])?$voterecords['browsertype']:0;
         $localrecord = isset($voterecords['localrecord'])?$voterecords['localrecord']:'';
         $wenick = isset($voterecords['wenick'])?$voterecords['wenick']:'游客';
         //$voterate = $voterecords['voterate'];
-        $chaosky = Chaosky::where('tipid',$tipid)->first();
+        
         if(date("Y-m-d H:i:s")>$chaosky->vetime || date("Y-m-d H:i:s")<$chaosky->vbtime){
             return response()->json([
                 'status'=>false,

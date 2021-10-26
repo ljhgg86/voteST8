@@ -38,7 +38,7 @@ class Chaosky extends Model
                     ->where('delflag',0)
                     ->where('draftflag',0)
                     ->with(['votetitle.voteitem'])
-                    ->select('tipid','tiptitle','tipimg1','tipcontent','readnum','commentflag','voterate','vbtime','vetime','stime','pagetype')
+                    ->select('tipid','tiptitle','tipimg1','tipcontent','readnum','commentflag','voterate','vbtime','vetime','stime','pagetype','codeflag')
                     ->first();
     }
 }
